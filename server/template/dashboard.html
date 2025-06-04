@@ -448,7 +448,7 @@
 
         const data = await res.json();
         if (!data.err) {
-          resultBox.innerText = `저장 완료: ${data.emotion_response || "처리됨"}`;
+          resultBox.innerText = `${data.emotion_response || "처리됨"}`;
         } else {
           resultBox.innerText = `에러 발생: ${data.err}`;
         }
