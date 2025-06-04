@@ -233,7 +233,6 @@
 
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="apikey.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.140.2/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.140.2/examples/js/loaders/GLTFLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.140.2/examples/js/controls/OrbitControls.js"></script>
@@ -313,7 +312,7 @@
         }
       });
       const data = await res.json();
-      console.log(data)
+      //console.log(data)
       return data; // { date: ..., amount: ... }
     } catch (err) {
       console.error("OCR 업로드 오류:", err);
@@ -410,7 +409,7 @@
       if (!window.base64Cropped) return alert("크롭 후 OCR 실행해주세요");
       
       const OCR_result = await POST('/api/ocr', payload={data: window.base64Cropped});
-      console.log(OCR_result)
+      //console.log(OCR_result)
       if (OCR_result && !OCR_result.err) {
         document.getElementById("manualDate").value = OCR_result.date || getTodayDate();
         document.getElementById("manualAmount").value = OCR_result.total || "";
