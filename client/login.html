@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>로그인</title>
+  <style>
+    @font-face {
+      font-family: 'SUIT';
+      src: url('https://cdn.jsdelivr.net/gh/sunn-us/SUIT/fonts/static/woff2/SUIT-Regular.woff2') format('woff2');
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'SUIT', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to bottom, #d7dadd 0%, #c4c9d6 60%, #b0c4db 100%);
+    }
+
+
+    header{
+            position: fixed;
+
+            /* 하위요소는 투명도 적용되지 않도록 opacity아닌 rgba */
+            background-color: rgb(255, 255, 255, 0.4);
+
+            /* 화면 너비에 꽉차도록 */
+            width: 100%;    
+
+            /* 갭 없애주기 */
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+
+            /* 그림자 생성 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+            align-items: center;
+            padding:0 150px;
+            /* 지정한 사이즈 내에 padding도 포함 */
+            box-sizing: border-box;
+            
+            display: flex;
+
+            /* 두 요소가 양끝으로 가도록 */
+            justify-content: space-between; 
+        }
+
+    .title{
+            white-space: nowrap;
+            font-size:22px;
+            font-weight: bold;
+        }
+
+    
+    .navigation-menu {
+      flex-shrink: 0; 
+      display: flex;
+      gap: 30px;
+      list-style-type: none;
+    }
+
+    .navigation-menu a {
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      cursor: pointer;
+    }
+    
+    .auth-box {
+      width: 350px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(15px);
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      border: none;
+      background: #83A2DB;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #6c91d3;
+    }
+
+    .switch-link {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .switch-link a {
+      color: #395B92;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .switch-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+        <div class="title">Project OS</div>
+            <ul class="navigation-menu">
+              <li><a href="project_os_intro.html">Home</a></li>
+            </ul>
+    </header>
+  <div class="auth-box">
+    <h2>로그인</h2>
+    <form id="loginForm">
+      <input type="text" name="Userid" placeholder="아이디" required />
+      <input type="password" name="Userpassword" placeholder="비밀번호" required />
+      <button type="submit">로그인</button>
+    </form>
+    <div class="switch-link">
+      계정이 없으신가요? <a href="signup.html">회원가입</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("loginForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData); // { Userid: '...', Userpassword: '...' }
+
+        try {
+          const res = await fetch("http://localhost:3000/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          });
+
+          const result = await res.json();
+          if (!result.err) {
+            localStorage.setItem("token", result.token);
+            localStorage.setItem("Userid", result.Userid);
+            console.log("현재 로그인한 user_id: ", localStorage.getItem("Userid"));
+
+            window.location.href = "dashboard.html"; // 로그인 성공 시 이동
+          } else {
+            alert("로그인 실패: " + result.err);
+          }
+        } catch (err) {
+          console.error(err);
+          alert("서버 연결 실패");
+        }
+      });
+    });
+  </script>
+</body>
+</html>

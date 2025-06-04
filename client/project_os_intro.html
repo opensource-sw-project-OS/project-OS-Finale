@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    header {
+      position: fixed;
+      background-color: rgba(255, 255, 255, 0.8);
+      width: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 70px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      align-items: center;
+      padding: 0 150px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .title {
+      white-space: nowrap;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .navigation-menu {
+      flex-shrink: 0; 
+      display: flex;
+      gap: 30px;
+      list-style-type: none;
+    }
+
+    .navigation-menu a {
+      text-decoration: none;
+      font-weight: bold;
+      color: black;
+      cursor: pointer;
+    }
+
+    .greeting {
+      text-align: center;
+      margin-top: 100px;
+      padding: 40px;
+    }
+
+    .greet h1 {
+      font-size: 150px;
+      font-weight: 650;
+      margin: 0; 
+    }
+
+    .greet button {
+      margin-top: 200px;
+      width:200px;
+      padding: 12px 28px;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .greet button:hover {
+      background-color: #333;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">Project OS</div>
+    <ul class="navigation-menu">
+      <li><a class="navigation" move-section=".greeting">Home</a></li>
+      <li><a href="login.html">Login</a></li> 
+      <li><a href="dashboard.html">Dashboard</a></li> 
+    </ul>
+  </header>
+
+  <section class="greeting">
+    <div class="greet">
+      <h1>Project OS</h1>
+      <button onclick="location.href='login.html'">Login</button>
+    </div>
+  </section>
+
+
+
+  <script>
+    document.querySelectorAll('.navigation').forEach(item => {
+      item.addEventListener('click', function () {
+        const move_section = this.getAttribute('move-section');
+        const target = document.querySelector(move_section);
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>
