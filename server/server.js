@@ -16,7 +16,7 @@ const JWT_SECRET = 'test-secret-key'; // 시크릿 키 설정
 const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: '.', // ← 본인 비번
+  password: 'qwer1234', // ← 본인 비번
   database: 'receipt_app'
 });
 
@@ -510,3 +510,4 @@ app.get('/', (req, res) => {
 
 
 app.use('/models', express.static(path.join(__dirname, 'models')));
+
