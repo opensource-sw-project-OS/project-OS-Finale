@@ -233,6 +233,7 @@
 
   </style>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="apikey.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.140.2/build/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.140.2/examples/js/loaders/GLTFLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.140.2/examples/js/controls/OrbitControls.js"></script>
@@ -483,7 +484,7 @@
     }
   }
 
-async function showBudget() {
+  async function showBudget() {
   const main = document.getElementById("main");
 
   // 이번 달 사용 금액 서버에서 받아오기
@@ -497,57 +498,95 @@ async function showBudget() {
   } catch (err) {
     console.error("이번 달 사용 금액 조회 실패:", err);
   }
-
   main.innerHTML = `
-    <div class="glass-box">
-      <h2>이번 달 예산</h2>
-      <p style="font-size: 16px; margin-bottom: 15px;">이번 달 지출 총합: <strong>${usedAmount.toLocaleString()}원</strong></p>
-      <input type="number" id="totalBudget" placeholder="총 예산 입력 (₩)" style="padding: 5px 16px; margin-bottom: 10px; border-radius: 8px;" />
-      <input type="number" id="usedBudget" value="${usedAmount}" readonly style="padding: 5px 16px; margin-bottom: 20px; border-radius: 8px; background:#eee; display: none;" />
-      <button onclick="drawChart()" style="margin-top:10px; padding:8px 16px; border:none; background:#83A2DB; color:white; border-radius:8px;">한눈에 확인</button>
-      <canvas id="budgetChart" width="300" height="300"></canvas>
-    </div>
-  `;
+  <div class="glass-box">
+    <h2>이번 달 예산</h2>
+    <p style="font-size: 16px; margin-bottom: 15px;">이번 달 지출 총합: <strong>${usedAmount.toLocaleString()}원</strong></p>
+
+    <div id="budgetMessage" style="margin-bottom: 10px; color: red; font-weight: bold;"></div>
+
+    <input type="number" id="totalBudget" placeholder="총 예산 입력 (₩)"  style="padding: 5px 16px; margin-bottom: 10px; border-radius: 8px;" />
+    <input type="number" id="usedBudget" value="${usedAmount}" readonly style="padding: 5px 16px; margin-bottom: 20px; border-radius: 8px; background:#eee; display: none;" />
+    
+    <button id="drawChartBtn" style="margin-top:10px; padding:8px 16px; border:none; background:#83A2DB; color:white; border-radius:8px;">한눈에 확인</button>
+    
+    <canvas id="budgetChart" width="300" height="300"></canvas>
+  </div>
+`;
+
+document.getElementById("drawChartBtn").addEventListener("click", drawChart);
+
 
   // 전역변수로 저장
   window.usedAmount = usedAmount;
 }
+let budgetChartInstance = null; // 전역 변수로 차트 인스턴스 저장
 
+function drawChart() {
+  const totalInput = document.getElementById("totalBudget");
+  const usedInput = document.getElementById("usedBudget");
+  const messageDiv = document.getElementById("budgetMessage");
 
-  
-      function drawChart() {
-        const total = parseInt(document.getElementById("totalBudget").value);
-        const used = parseInt(document.getElementById("usedBudget").value);
-        const remain = total - used;
-  
-        const ctx = document.getElementById('budgetChart').getContext('2d');
-        new Chart(ctx, {
-          type: 'doughnut',
-          data: {
-            labels: ['사용한 금액', '남은 금액'],
-            datasets: [{
-              data: [used, remain],
-              backgroundColor: ['#CE6969', '#83A2DB'],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                position: 'bottom',
-                labels: {
-                  font: {
-                    family: 'SUIT',
-                    size: 14
-                  }
-                }
-              }
+  if (!totalInput || !usedInput) return;
+
+  const total = parseInt(totalInput.value);
+  const used = parseInt(usedInput.value);
+
+  // 총 예산 입력이 없으면 차트 그리지 않음
+  if (isNaN(total)) {
+    messageDiv.innerText = "";
+    if (budgetChartInstance) {
+      budgetChartInstance.destroy();
+      budgetChartInstance = null;
+    }
+    return;
+  }
+
+  const remain = total - used;
+
+  // 예산 초과 메시지 처리
+  if (total < used) {
+    const exceed = used - total;
+    messageDiv.innerText = `⚠ 이번 달 예산을 ${exceed.toLocaleString()}원 초과했습니다.`;
+  } else {
+    messageDiv.innerText = "";
+  }
+
+  const ctx = document.getElementById('budgetChart').getContext('2d');
+
+  // 기존 차트 제거
+  if (budgetChartInstance) {
+    budgetChartInstance.destroy();
+  }
+
+  // 새 차트 그리기
+  budgetChartInstance = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['사용한 금액', '남은 금액'],
+      datasets: [{
+        data: [used, Math.max(remain, 0)],
+        backgroundColor: ['#CE6969', '#83A2DB'],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: {
+              family: 'SUIT',
+              size: 14
             }
           }
-        });
+        }
       }
-  
+    }
+  });
+}
+
 
 
 
@@ -1129,9 +1168,6 @@ async function perEmotion(ctx) {
       animate(); // 애니메이션 시작
     }
 
-
-
-    // }
 
     function animate() {
       requestAnimationFrame(animate);
