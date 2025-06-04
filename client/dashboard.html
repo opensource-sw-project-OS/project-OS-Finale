@@ -549,8 +549,10 @@ function drawChart() {
     const exceed = used - total;
     messageDiv.innerText = `⚠ 이번 달 예산을 ${exceed.toLocaleString()}원 초과했습니다.`;
   } else {
-    messageDiv.innerText = "";
+    const remain = total - used;
+    messageDiv.innerHTML = `<span style="color: black;">이번 달 예산이 </span><span style="color: #83A2DB;">${Number(remain).toLocaleString()}원</span><span style="color: black;"> 남았습니다.</span>`;
   }
+
 
   const ctx = document.getElementById('budgetChart').getContext('2d');
 
@@ -1168,6 +1170,49 @@ async function perEmotion(ctx) {
       animate(); // 애니메이션 시작
     }
 
+    // function loadEmotionModel() {
+    //   const input = document.getElementById("emotionInput").value.trim();
+    //   const map = {
+    //     '행복': 'happy.glb',
+    //     '슬픔': 'sad.glb',
+    //     '불안': 'anxious.glb',
+    //     '분노': 'angry.glb'
+    //   };
+    //   const fileName = map[input];
+    //   if (!fileName) {
+    //     alert("감정은 '행복', '슬픔', '불안', '분노' 중에서 입력해주세요.");
+    //     return;
+    //   }
+
+    //   const loader = new THREE.GLTFLoader();
+    //   loader.load(`models/${fileName}`, (gltf) => {
+    //   if (model) scene.remove(model);
+
+    //   model = gltf.scene;
+
+    //   // 크기와 위치 조정
+    //   model.scale.set(0.06,0.06,0.06);   // 캐릭터 사이즈 조절
+    //   model.position.set(0, 0, 0);   // 아래로
+
+    //   model.rotation.y = Math.PI / 2; // 캐릭터가 앞을 보도록
+
+    //   // 모델 내부 구조 확인
+    //   model.traverse((child) => {
+    //     if (child.isMesh) {
+    //       child.castShadow = true;
+    //       child.receiveShadow = true;
+    //       console.log("Mesh:", child.name);
+    //     }
+    //   });
+
+    //   scene.add(model);
+    //   console.log("모델 씬에 추가");
+    //   });
+
+
+
+
+    // }
 
     function animate() {
       requestAnimationFrame(animate);
