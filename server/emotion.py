@@ -132,7 +132,18 @@ def compose_final_message(emo_type, cause, spend_review, percent, diff):
     negative_emotions = ["슬픔", "불안", "분노", "당황", "혐오"] # 확장 가능
 
     # 1?? 감정 표현
-    first = f"너의 문장을 보니 {emo_type}이 느껴졌어."
+    if emo_type == "기쁨":
+        first = "네 문장에서 밝은 기쁨이 느껴져."
+    elif emo_type == "중립":
+        first = "네 문장을 보니 특별한 감정의 변화는 없어 보이네."
+    elif emo_type == "슬픔":
+        first = "네 문장에서 슬픔이 묻어나와.. 마음이 아프네."
+    elif emo_type == "불안":
+        first = "네 문장을 보니 너의 불안한 마음이 느껴져."
+    elif emo_type == "분노":
+        first = "네 문장을 보니 너의 화난 감정을 엿볼 수 있었어."
+    else: # 다른 감정 유형이 추가될 경우 대비
+        first = f"네 문장에서 {emo_type}이 느껴졌어."
 
     # 2?? 원인 공감 or 커버 문장
     if cause and cause != "None":
@@ -172,7 +183,7 @@ def compose_final_message(emo_type, cause, spend_review, percent, diff):
     # 4?? 감정-지출 기반 위로 문장
     if emo_type == "기쁨":
         if spend_review == "많다":
-            fourth = "기쁜 마음에 나를 위해 쓰는 것도 좋아. 하지만 예산도 함께 챙겨보자."
+            fourth = "기쁜 마음에 나를 위해 쓰는 것도 좋아. 그래도 예산도 함께 챙겨보는 건 어때?."
         elif spend_review == "비슷하다":
             fourth = "평소대로 지낸 하루, 그 자체로도 충분히 괜찮아."
         else:
@@ -193,7 +204,7 @@ def compose_final_message(emo_type, cause, spend_review, percent, diff):
             fourth = "기분이 안 좋은데도 절제했다는 게 참 대단해."
 
     # 5?? 정서적 마무리
-    closing = "오늘 하루도 잘 버텨냈어. 내일은 더 괜찮을 거야."
+    closing = "오늘 하루도 수고했어. 내일은 더 괜찮을 거야. \n내 변변찮은 답변이 너에게 힘이 되었길 바라"
 
     return "\n".join([first, second, third, fourth, closing])
 
