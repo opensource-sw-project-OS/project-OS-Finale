@@ -1,4 +1,6 @@
-# project-OS-Finale
+<img src="https://capsule-render.vercel.app/api?type=venom&height=300&color=gradient&text=Project_OS_Final&fontColor=BLACK&fontSize=70&descAlign=50">
+
+# project-OS-Final
 OpenSW 최종 과제 결과물 입니다
 
 # 설명
@@ -8,6 +10,32 @@ client에서 사용할 html이 모여있는 폴더 입니다.
 실제로 서버 가동시 사용되는 폴더는 아니며, html만을 모아 놓은 것입니다.
 서버 가동시 접속은 `http://localhost:3000` 입니다
 
+<br>
+
+### repository 구조
+
+```
+📁 models                       ← 감정을 나타내는 3D GLB 파일들
+├── 📄 angry.glb                ← 분노 감정 모델 
+├── 📄 anxious.glb              ← 불안 감정 모델 
+├── 📄 happy.glb                ← 기쁨 감정 모델 
+├── 📄 normal.glb               ← 중립 감정 모델 
+└── 📄 sad.glb                  ← 슬픔 감정 모델 
+
+📁 public                       ← 정적 파일(CSS, JS) 저장 위치 
+├── 📁 css
+│   └── 📄 dashboard.css        ← 대시보드의 스타일을 정의한 CSS 파일 
+└── 📁 js
+    └── 📄 dashboard.js         ← 대시보드의 주요 기능 구현 JavaScript 파일 
+
+📁 template                     ← 렌더링될 HTML 템플릿 페이지들 
+├── 📄 dashboard.html           ← 메인 대시보드 페이지
+├── 📄 login.html               ← 로그인 페이지 
+├── 📄 project_os_intro.html    ← 최초 접속 페이지 
+└── 📄 signup.html              ← 회원가입 페이지 
+```
+
+<br>
 
 ## 2. server 폴더
 
@@ -50,3 +78,5 @@ CREATE TABLE IF NOT EXISTS receipt (
     FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE
 );
 ```
+
+
