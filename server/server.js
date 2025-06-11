@@ -510,4 +510,4 @@ app.get('/', (req, res) => {
 
 
 app.use('/models', express.static(path.join(__dirname, 'models')));
-
+app.use(express.static(path.join(__dirname, 'public')));
