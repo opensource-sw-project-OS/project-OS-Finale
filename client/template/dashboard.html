@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>대시보드</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <script src="/js/dashboard.js" defer></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="apikey.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.140.2/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.140.2/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.140.2/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.13/dist/cropper.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.0.2/dist/tesseract.min.js"></script>
+    <!-- 화면 해상도에 따라 글자 크기 대응(모바일 대응) -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <!-- jquery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- fullcalendar CDN -->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+  <!-- fullcalendar 언어 CDN -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+
+</head>
+  <body>
+    <header>
+        <div class="title">Project OS</div>
+            <ul class="navigation-menu">
+      <li><a href="project_os_intro.html">Home</a></li>
+      <li><a href="#" onclick="logout()">Logout</a></li>
+    </ul>
+    </header>
+    <aside class="side-menu">
+      <div class="pill-menu" onclick="showReceiptInput()">
+        <img src="https://img.icons8.com/?size=100&id=123771&format=png&color=737373" alt="입력"> 입력
+      </div>
+      <div class="pill-menu" onclick="showSpending()">
+        <img src="https://img.icons8.com/?size=100&id=8322&format=png&color=737373" alt="그래프"> 그래프
+      </div>
+      <div class="pill-menu" onclick="showBudget()">
+        <img src="https://img.icons8.com/?size=100&id=7985&format=png&color=737373" alt="예산"> 예산
+      </div>
+      <div class="pill-menu" onclick="showCalendar()">
+        <img src="https://img.icons8.com/?size=100&id=10053&format=png&color=737373" alt="달력"> 달력
+      </div>
+      <div class="pill-menu" onclick="showEmotionDiary()">
+        <img src="https://img.icons8.com/?size=100&id=6UIyI0qTHfth&format=png&color=737373" alt="다이어리"> 다이어리
+      </div>
+    </aside>
+  
+    <main class="main-content" id="main"></main>
+
+  </body>
+  </html>
+  
